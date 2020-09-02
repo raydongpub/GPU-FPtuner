@@ -50,3 +50,10 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+.rose_tuner/cuda_bench/cfd/result/
+.rose_tuner/cuda_bench/gaussian/result/
+.rose_tuner/cuda_bench/hotspot/result/
+.rose_tuner/cuda_bench/lavaMD/result/
+.rose_tuner/cuda_bench/lud/result/
+.rose_tuner/cuda_bench/sp/result/
