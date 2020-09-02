@@ -1,0 +1,16 @@
+  gdd_real* d_variables = new gdd_real[nelr*NVAR];
+	download(d_variables, variables, nelr*NVAR);
+	dd_real* h_variables = new dd_real[nelr*NVAR];
+  gqd2qd(d_variables, h_variables, nelr*NVAR); 
+  mpf_t val_x, val_y;
+  mpf_init2(val_x, 128);
+  mpf_init2(val_y, 128);
+  FILE* outfile = fopen("density_ref.txt", "w");
+  for(int i = 0; i < nel; i++) {
+    mpf_set_d(val_x, h_variables[i + VAR_DENSITY_ENERGY*nelr].x[0]);
+    mpf_set_d(val_y, h_variables[i + VAR_DENSITY_ENERGY*nelr].x[1]);
+    mpf_add(val_x, val_x, val_y);
+    gmp_fprintf(outfile, "%.80Fe\n", val_x);
+  }
+  fclose(outfile);
+

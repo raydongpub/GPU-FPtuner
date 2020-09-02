@@ -1,0 +1,40 @@
+
+//#include <helper_cuda.h>
+#include <helper_timer.h>
+#include <mpfr.h>
+#include <qd/dd_real.h>
+#include "../../gpuprec/gqd/gqd.cu"
+
+using namespace std;
+
+typedef struct gdd_real3
+{
+	gdd_real x, y, z;
+} gdd_real3;
+typedef struct dd_real3 
+{
+  dd_real x, y, z;
+} dd_real3;
+
+void qd2gqd(dd_real3* dd_data, gdd_real3* gdd_data, const unsigned int numElement) {
+    for (unsigned int i = 0; i < numElement; i++) {
+        gdd_data[i].x.x = dd_data[i].x.x[0];
+        gdd_data[i].x.y = dd_data[i].x.x[1];
+        gdd_data[i].y.x = dd_data[i].y.x[0];
+        gdd_data[i].y.y = dd_data[i].y.x[1];
+        gdd_data[i].z.x = dd_data[i].z.x[0];
+        gdd_data[i].z.y = dd_data[i].z.x[1];
+    }
+}
+void qd2gqd(dd_real* dd_data, gdd_real* gdd_data, const unsigned int numElement) {
+    for (unsigned int i = 0; i < numElement; i++) {
+        gdd_data[i].x = dd_data[i].x[0];
+        gdd_data[i].y = dd_data[i].x[1];
+    }
+}
+void gqd2qd(gdd_real* gdd_data, dd_real* dd_data, const unsigned int numElement) {
+    for (unsigned int i = 0; i < numElement; i++) {
+        dd_data[i].x[0] = gdd_data[i].x;
+        dd_data[i].x[1] = gdd_data[i].y;
+    }
+}
