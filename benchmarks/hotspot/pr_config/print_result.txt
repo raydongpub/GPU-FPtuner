@@ -1,0 +1,18 @@
+  mpf_t val_x, val_y;
+  mpf_init2(val_x, 128);
+  mpf_init2(val_y, 128);
+  FILE* outfile = fopen("out_ref.txt", "w");
+  for(int i = 0; i < size; i++) {
+    mpf_set_d(val_x, MatrixOut[i].x[0]);
+    mpf_set_d(val_y, MatrixOut[i].x[1]);
+    mpf_add(val_x, val_x, val_y);
+    gmp_fprintf(outfile, "%.80Fe\n", val_x);
+  }
+  fclose(outfile);
+  int blockSize;
+  int minGridSize;
+  int gridSize;
+  cudaOccupancyMaxPotentialBlockSize(&minGridSize, &blockSize, calculate_temp, 0, 0);
+  blockSize = sqrt(blockSize);
+  printf("block: %d\n", blockSize);
+

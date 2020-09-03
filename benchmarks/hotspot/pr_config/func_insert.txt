@@ -1,0 +1,29 @@
+
+//#include <helper_cuda.h>
+#include <helper_timer.h>
+#include <mpfr.h>
+#include <qd/dd_real.h>
+#include "../../gpuprec/gqd/gqd.cu"
+
+using namespace std;
+
+void qd2gqd(dd_real* dd_data, gdd_real* gdd_data, const unsigned int numElement) {
+    for (unsigned int i = 0; i < numElement; i++) {
+        gdd_data[i].x = dd_data[i].x[0];
+        gdd_data[i].y = dd_data[i].x[1];
+    }
+}
+void gqd2qd(gdd_real* gdd_data, dd_real* dd_data, const unsigned int numElement) {
+    for (unsigned int i = 0; i < numElement; i++) {
+        dd_data[i].x[0] = gdd_data[i].x;
+        dd_data[i].x[1] = gdd_data[i].y;
+    }
+}
+void qd2gqd2(dd_real dd_data[][5], gdd_real gdd_data[][5], int d1, int d2, int numElement) {
+    for (unsigned int i = 0; i < d1; i++) {
+      for (unsigned int j = 0; j < d2; j++) {
+        gdd_data[i][j].x = dd_data[i][j].x[0];
+        gdd_data[i][j].y = dd_data[i][j].x[1];
+      }
+    }
+}

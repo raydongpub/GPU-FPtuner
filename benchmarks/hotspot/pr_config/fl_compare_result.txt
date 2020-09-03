@@ -1,0 +1,37 @@
+
+  mpf_t val_x, val_y, val_in, err;
+  mpf_init2(val_x, 128);
+  mpf_init2(val_y, 128);
+  mpf_init2(val_in, 128);
+  mpf_init2(err, 128);
+  FILE* infile = fopen("out_ref.txt", "r");
+  for(int i = 0; i < size; i++) {
+    gmp_fscanf(infile, "%Fe\n", val_in);
+    mpf_set_d(val_x, (double)MatrixOut[i]);
+    mpf_sub(val_x, val_x, val_in);
+    mpf_abs(val_y, val_x);
+    //if (mpf_cmp_d(val_in, (double)0.0) !=0) {
+    //  //mpf_abs(val_x, val_in);
+    //  mpf_div(val_x, val_y, val_in);
+    //} else
+    //  mpf_set(val_x, val_y);
+    mpf_div(val_x, val_y, val_in);
+    if (i==0)
+      mpf_set(err, val_x);
+    else
+      mpf_add(err, err, val_x);
+
+  }
+  //mpf_set_d(val_x, MatrixOut[0]);
+  //mpf_div(err, err, val_x);
+
+  mpf_div_ui(err, err, size);
+  fclose(infile);
+  gmp_printf("error: %10.5Fe\n", err);
+  int blockSize;
+  int minGridSize;
+  int gridSize;
+  cudaOccupancyMaxPotentialBlockSize(&minGridSize, &blockSize, calculate_temp, 0, 0);
+  blockSize = sqrt(blockSize);
+  printf("block: %d\n", blockSize);
+

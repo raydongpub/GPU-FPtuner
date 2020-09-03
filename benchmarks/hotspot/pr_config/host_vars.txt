@@ -1,0 +1,14 @@
+FilesavingTemp
+FilesavingPower
+MatrixOut
+t_chip
+chip_height
+chip_width
+grid_height
+grid_width
+max_slope
+Cap
+Rx
+Ry
+Rz
+step
